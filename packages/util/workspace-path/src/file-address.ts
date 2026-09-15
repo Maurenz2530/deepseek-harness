@@ -84,7 +84,7 @@ export function absoluteFileAddress(path: string): string {
  * Read a file address back into its parts without resolving `.` or `..`.
  * Query and fragment suffixes are ignored; encoded path segments are decoded.
  * @param address - a candidate address.
- * @returns the parts, or `undefined` when the string is not a `dsh-resource://file/` URI in a known scope with a path, or a segment is not validly encoded.
+ * @returns the parts, or `undefined` when the string is not a `dsh-resource://file/` URI in a known scope with a path (the POSIX root is valid), or a segment is not validly encoded.
  */
 export function parseFileAddress(address: string): FileAddress | undefined {
   try {
@@ -97,6 +97,7 @@ export function parseFileAddress(address: string): FileAddress | undefined {
       return { scope, sessionId: decodeURIComponent(id), path: segments.map(decodeURIComponent).join('/') }
     }
     if (scope === 'absolute') {
+      if (rest.length === 1 && rest[0] === '') return { scope, path: '/' }
       // An empty first segment with more behind it is a UNC path's `//`; alone it is no path.
       const unc = rest[0] === '' && rest.length > 1
       const segments = (unc ? rest.slice(1) : rest).map(decodeURIComponent)

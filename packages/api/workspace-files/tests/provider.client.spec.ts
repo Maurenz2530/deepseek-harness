@@ -58,7 +58,7 @@ describe('file provider — the address', () => {
   it.each([
     ['another scope', 'dsh-resource://file/shared/x/w/a.txt'],
     ['no path', 'dsh-resource://file/session/s1'],
-    ['an absolute address with no path', 'dsh-resource://file/absolute/'],
+    ['an absolute UNC address with no host', 'dsh-resource://file/absolute//'],
     ['another resource type', 'dsh-resource://terminal/session/s1/1'],
     ['the retired file:// grammar', 'file://sessions/s1/w/a.txt'],
     ['a bare file URL', 'file:///w/a.txt'],

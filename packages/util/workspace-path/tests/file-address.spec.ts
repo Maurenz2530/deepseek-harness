@@ -77,6 +77,12 @@ describe('file addresses', () => {
     expect(parseFileAddress(address)).toEqual({ scope: 'absolute', path: '/home/me/notes.md' })
   })
 
+  it('round-trips the absolute POSIX root', () => {
+    const address = absoluteFileAddress('/')
+    expect(address).toBe('dsh-resource://file/absolute/')
+    expect(parseFileAddress(address)).toEqual({ scope: 'absolute', path: '/' })
+  })
+
   it('round-trips an absolute Windows drive path with backslashes normalized and the colon literal', () => {
     const address = absoluteFileAddress('C:\\w\\x.ts')
     expect(address).toBe('dsh-resource://file/absolute/C:/w/x.ts')
@@ -106,7 +112,6 @@ describe('file addresses', () => {
     ['a session address with no id', 'dsh-resource://file/session'],
     ['a session address with an empty id', 'dsh-resource://file/session//a.txt'],
     ['an absolute address with no path', 'dsh-resource://file/absolute'],
-    ['an absolute address with an empty path', 'dsh-resource://file/absolute/'],
     ['a UNC marker with no host behind it', 'dsh-resource://file/absolute//'],
     ['no scope', 'dsh-resource://file'],
     ['another scheme', 'sidebar://files'],
